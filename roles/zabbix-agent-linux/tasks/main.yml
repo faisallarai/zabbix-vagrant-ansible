@@ -1,0 +1,40 @@
+---
+- name: Download zabbix-release_4.2-1+bionic_all.deb
+  get_url:
+    url: https://repo.zabbix.com/zabbix/4.2/ubuntu/pool/main/z/zabbix-release/zabbix-release_4.2-1+bionic_all.deb
+    dest: /tmp/zabbix-release_4.2-1+bionic_all.deb
+
+- name: Install a .deb package from the internet.
+  apt:
+    deb: https://repo.zabbix.com/zabbix/4.2/ubuntu/pool/main/z/zabbix-release/zabbix-release_4.2-1+bionic_all.deb
+
+- name: Install aptitude using apt
+  apt: 
+    name: aptitude
+    state: present 
+    update_cache: yes 
+    force_apt_get: yes
+
+- name: Install required system packages
+  apt: 
+    name: "{{ item }}" 
+    state: present 
+    update_cache: yes
+  loop: [ 'zabbix-agent', 'gzip']
+
+- name: Replace zabbix agent config file
+  template:
+    src: "{{ role_path }}/templates/zabbix_agentd.j2"
+    dest: "/etc/zabbix/zabbix_agentd.conf" 
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+    backup: no
+
+- name: restart service cron on, in all cases, also issue daemon-reload to pick up config changes
+  systemd:
+    state: restarted
+    daemon_reload: yes
+    name: zabbix-agent
+    enabled: yes
+    masked: no

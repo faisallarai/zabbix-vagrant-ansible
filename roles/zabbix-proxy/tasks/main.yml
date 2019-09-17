@@ -1,0 +1,143 @@
+---
+- name: Download zabbix-release_4.2-1+bionic_all.deb
+  get_url:
+    url: https://repo.zabbix.com/zabbix/4.2/ubuntu/pool/main/z/zabbix-release/zabbix-release_4.2-1+bionic_all.deb
+    dest: /tmp/zabbix-release_4.2-1+bionic_all.deb
+
+- name: Install a .deb package from the internet.
+  apt:
+    deb: https://repo.zabbix.com/zabbix/4.2/ubuntu/pool/main/z/zabbix-release/zabbix-release_4.2-1+bionic_all.deb
+
+- name: Install aptitude using apt
+  apt: 
+    name: aptitude
+    state: present 
+    update_cache: yes 
+    force_apt_get: yes
+
+- name: Install required system packages
+  apt: 
+    name: "{{ item }}" 
+    state: present 
+    update_cache: yes
+  loop: [ 'zabbix-proxy-mysql', 'zabbix-agent', 'gzip']
+
+- name: Make sure pymysql is present
+  become: yes
+  pip:
+    name: pymysql
+    state: present
+
+- name: Dump zabbix database to zabbix-timestamp.sql
+  mysql_db:
+    state: dump
+    name: "{{ db_name }}"
+    target: /tmp/{{ db_name }}-{{ansible_date_time.date}}.sql
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+  ignore_errors: true
+
+- name: Drop zabbix database
+  become: yes
+  mysql_db:
+    name: '{{ db_name }}'
+    state: absent
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+  ignore_errors: true
+
+- name: Create database
+  become: yes
+  mysql_db:
+    name: '{{ db_name }}'
+    state: present
+    collation: utf8_bin
+    encoding: utf8
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+  register: db_created
+
+- name: Show db created result
+  debug:
+    var: db_created
+
+- name: "Create user for the database {{ db_user }} "
+  become: yes
+  mysql_user:
+    host: localhost
+    check_implicit_admin: yes
+    name: zabbix
+    password: "{{ db_pass }}"
+    encrypted: no
+    priv: "{{ db_name }}.*:ALL,GRANT"
+    state: present
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+
+- name: Retrieve mysql binary archive.
+  become: yes
+  shell: zcat /usr/share/doc/zabbix-proxy-mysql/schema.sql.gz > /tmp/schema.sql
+
+- name: Import zabbix schema database
+  mysql_db:
+    name: '{{ db_name }}'
+    state: import
+    target: /tmp/schema.sql
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+  register: db_imported
+  #failed_when: true
+  ignore_errors: true
+
+- name: Copy zabbix proxy sql file to temp folder
+  become: no
+  local_action: copy content="{{ role_path }}"/files/zabbix-proxy.sql dest="/tmp/zabbix-proxy.sql"
+
+- name: Copy zabbix proxy sql file to tmp folder
+  become: no
+  copy: src=zabbix-proxy.sql dest=/tmp/zabbix-proxy.sql mode=0777
+
+- name: Restore backup database
+  mysql_db:
+    name: '{{ db_name }}'
+    state: import
+    target: /tmp/zabbix-proxy.sql
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+  register: zabbix_proxy_imported
+  ignore_errors: true
+
+- name: Show db import result
+  debug:
+    var: db_imported.msg
+
+- name: Replace zabbix proxy config file
+  template:
+    src: "{{ role_path }}/templates/zabbix_proxy.j2"
+    dest: "/etc/zabbix/zabbix_proxy.conf" 
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+    backup: yes
+
+- name: Replace zabbix agent config file
+  template:
+    src: "{{ role_path }}/templates/zabbix_agentd.j2"
+    dest: "/etc/zabbix/zabbix_agentd.conf" 
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+    backup: yes
+
+# - name: Start service zabbix-proxy and zabbix-agent, if not started
+#   service:
+#     name: "{{ item }}"
+#     state: started
+#   loop: ['zabbix-proxy', 'zabbix-agent']
+
+- name: restart service zabbix proxy and agent on
+  systemd:
+    state: restarted
+    daemon_reload: yes
+    name: "{{ item }}"
+    enabled: yes
+    masked: no
+  loop: ['zabbix-proxy', 'zabbix-agent']
+
+- name: Enable zabbix proxy 
+  become: yes
+  command: update-rc.d zabbix-proxy enable

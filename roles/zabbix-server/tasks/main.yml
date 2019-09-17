@@ -1,0 +1,165 @@
+---
+- name: Download zabbix-release_4.2-1+bionic_all.deb
+  get_url:
+    url: https://repo.zabbix.com/zabbix/4.2/ubuntu/pool/main/z/zabbix-release/zabbix-release_4.2-1+bionic_all.deb
+    dest: /tmp/zabbix-release_4.2-1+bionic_all.deb
+
+- name: Install a .deb package from the internet.
+  apt:
+    deb: https://repo.zabbix.com/zabbix/4.2/ubuntu/pool/main/z/zabbix-release/zabbix-release_4.2-1+bionic_all.deb
+
+- name: Install aptitude using apt
+  apt: 
+    name: aptitude
+    state: present 
+    update_cache: yes 
+    force_apt_get: yes
+
+- name: Install required system packages
+  apt: 
+    name: "{{ item }}" 
+    state: present 
+    update_cache: yes
+  loop: [ 'zabbix-server-mysql', 'zabbix-frontend-php', 'zabbix-agent', 'gzip']
+
+- name: Make sure pymysql is present
+  become: yes
+  pip:
+    name: pymysql
+    state: present
+
+- name: create /root/.my.cnf (from template) with password credentials
+  become: yes
+  template: 
+    src: "{{ role_path }}/templates/.my.cnf"
+    dest: /root/.my.cnf 
+    owner: root 
+    mode: 0755
+
+- name: Dump zabbix database to zabbix-timestamp.sql
+  mysql_db:
+    state: dump
+    name: "{{ db_name }}"
+    target: /tmp/{{ db_name }}-{{ansible_date_time.date}}.sql
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+  ignore_errors: true
+
+- name: Drop zabbix database
+  become: yes
+  mysql_db:
+    name: '{{ db_name }}'
+    state: absent
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+  ignore_errors: true
+
+- name: Create database
+  become: yes
+  mysql_db:
+    name: '{{ db_name }}'
+    state: present
+    collation: utf8_bin
+    encoding: utf8
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+  register: db_created
+
+- name: Show db created result
+  debug:
+    var: db_created
+
+- name: "Create user for the database {{ db_user }} "
+  become: yes
+  mysql_user:
+    host: localhost
+    check_implicit_admin: yes
+    name: zabbix
+    password: "{{ db_pass }}"
+    encrypted: no
+    priv: "{{ db_name }}.*:ALL,GRANT"
+    state: present
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+
+- name: Retrieve mysql binary archive.
+  become: yes
+  shell: zcat /usr/share/doc/zabbix-server-mysql/create.sql.gz > /tmp/create.sql
+
+- name: Restore database
+  mysql_db:
+    name: '{{ db_name }}'
+    state: import
+    target: /tmp/create.sql
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+  register: db_imported
+  #failed_when: true
+  ignore_errors: true
+
+- name: Copy zabbix server sql file 
+  become: no
+  local_action: copy content="{{ role_path }}"/files/zabbix-server.sql dest="./zabbix-server.sql"
+
+- name: Copy zabbix server sql file to tmp folder
+  become: no
+  copy: src=zabbix-server.sql dest=/tmp/zabbix-server.sql mode=0777
+
+- name: Restore backup database
+  mysql_db:
+    name: '{{ db_name }}'
+    state: import
+    target: /tmp/zabbix-server.sql
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+  register: zabbix_server_imported
+  ignore_errors: true
+
+- name: Show db import result
+  debug:
+    var: db_imported.msg
+
+- name: Replace apache config file
+  template:
+    src: "{{ role_path }}/templates/zabbix.j2"
+    dest: "/etc/apache2/conf-enabled/zabbix.conf" 
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+    backup: yes
+
+- name: Replace zabbix server config file
+  template:
+    src: "{{ role_path }}/templates/zabbix_server.j2"
+    dest: "/etc/zabbix/zabbix_server.conf" 
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+    backup: yes
+
+- name: Replace zabbix agent config file
+  template:
+    src: "{{ role_path }}/templates/zabbix_agentd.j2"
+    dest: "/etc/zabbix/zabbix_agentd.conf" 
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+    backup: yes
+
+# - name: Start service zabbix-server, if not started
+#   service:
+#     name: "{{ item }}"
+#     state: started
+#   loop: ['zabbix-server', 'zabbix-agent']
+
+- name: restart service zabbix server and agent on
+  systemd:
+    state: restarted
+    daemon_reload: yes
+    name: "{{ item }}"
+    enabled: yes
+    masked: no
+  loop: ['zabbix-server', 'zabbix-agent']
+
+- name: Enable zabbix server 
+  become: yes
+  command: update-rc.d zabbix-server enable
+
+- name: Start apache server
+  service:
+    name: apache2
+    state: restarted

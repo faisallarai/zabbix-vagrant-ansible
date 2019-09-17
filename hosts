@@ -1,0 +1,6 @@
+127.0.0.1 localhost localhost.localdomain
+10.0.0.100 zabbix-server
+10.0.0.101 zabbix-proxy
+10.0.0.102 zabbix-agent-linux
+10.0.0.103 zabbix-agent-win
+ 

@@ -1,0 +1,10 @@
+---
+- hosts: zabbix-proxy
+  gather_facts: true
+  become: yes
+  tags:
+    - zabbix-proxy
+  vars_files:
+    - vault_file.yml
+  roles:
+    - zabbix-proxy

@@ -1,0 +1,10 @@
+---
+- hosts: zabbix-server
+  gather_facts: true
+  become: yes
+  tags:
+    - zabbix-server
+  vars_files:
+    - vault_file.yml
+  roles:
+    - zabbix-server

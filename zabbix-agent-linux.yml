@@ -1,0 +1,8 @@
+---
+- hosts: zabbix-agent-linux
+  gather_facts: true
+  become: yes
+  tags:
+    - zabbix-agent-linux
+  roles:
+    - zabbix-agent-linux

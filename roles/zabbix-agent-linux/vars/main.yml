@@ -1,0 +1,4 @@
+---
+zabbix_hostname: Zabbix Agent Linux
+zabbix_server_hostname: zabbix-server
+zabbix_proxy_hostname: zabbix-proxy

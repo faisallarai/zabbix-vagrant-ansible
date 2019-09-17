@@ -1,0 +1,6 @@
+---
+db_name: zabbix
+db_user: zabbix
+zabbix_hostname: Zabbix Server
+zabbix_server_hostname: zabbix-server
+zabbix_proxy_hostname: zabbix-proxy

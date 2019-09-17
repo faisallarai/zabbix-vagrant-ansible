@@ -1,0 +1,8 @@
+[server]
+zabbix-server ansible_host=zabbix-server ansible_port=2100
+[proxy]
+zabbix-proxy ansible_host=zabbix-proxy ansible_port=2101
+[agent-linux]
+zabbix-agent-linux ansible_host=zabbix-agent-linux ansible_port=2102
+[agent-windows]
+zabbix-agent-windows ansible_host=zabbix-server-windows ansible_port=2103
