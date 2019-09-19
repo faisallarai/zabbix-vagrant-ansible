@@ -6,6 +6,7 @@
 
 - name: Install Chocolatey
   raw: Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+  changed_when: false
 
 - name: Copy hosts file to etc folder
   win_copy:
@@ -60,6 +61,6 @@
     state: present
     enabled: yes
 
-- name: Reboot to apply changes 
+- name: Reboot to apply changes
   win_reboot:
     reboot_timeout: 3600

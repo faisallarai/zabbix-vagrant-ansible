@@ -40,16 +40,6 @@ nodes = [
   }
 ]
 
-$script = <<SCRIPT
-sudo mv hosts /etc/hosts
-chmod 0600 /home/vagrant/.ssh/id_rsa
-usermod -a -G vagrant ubuntu
-cp -Rvf /home/vagrant/.ssh /home/ubuntu
-chown -Rvf ubuntu /home/ubuntu
-apt-get -y update
-apt-get -y install python-minimal python-apt python-setuptools python-pip
-SCRIPT
-
 Vagrant.configure("2") do |config|
   config.ssh.insert_key = false
   nodes.each do |node|
@@ -67,9 +57,6 @@ Vagrant.configure("2") do |config|
         vb.gui = false
         vb.customize ['modifyvm', :id, '--macaddress1', "5CA1AB1E00"+node[:id]]
       end
-      #nodeconfig.vm.provision "file", source: "hosts", destination: "hosts"
-      #nodeconfig.vm.provision "file", source: "~/.vagrant.d/insecure_private_key", destination: "/home/vagrant/.ssh/id_rsa"
-      #nodeconfig.vm.provision "shell", inline: $script
     end
   end
 end
