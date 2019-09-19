@@ -1,8 +1,38 @@
 [server]
-zabbix-server ansible_host=zabbix-server ansible_port=2100
+zabbix-server
+
+[server:vars]
+ansible_host=zabbix-server 
+ansible_port=2100
+
 [proxy]
-zabbix-proxy ansible_host=zabbix-proxy ansible_port=2101
+zabbix-proxy
+
+[proxy:vars]
+ansible_host=zabbix-proxy 
+ansible_port=2101
+
 [agent-linux]
-zabbix-agent-linux ansible_host=zabbix-agent-linux ansible_port=2102
+zabbix-agent-linux
+
+[agent-linux:vars]
+ansible_host=zabbix-agent-linux 
+ansible_port=2102
+
 [agent-windows]
-zabbix-agent-windows ansible_host=zabbix-server-windows ansible_port=2103
+zabbix-agent-windows
+
+[agent-windows:vars]
+ansible_user=vagrant 
+ansible_password=vagrant 
+ansible_host=zabbix-agent-windows 
+ansible_port=55985 
+ansible_connection=winrm 
+ansible_winrm_server_cert_validation=ignore
+ansible_winrm_transport=basic
+ansible_winrm_scheme=http
+ansible_winrm_operation_timeout_sec=60
+ansible_winrm_read_timeout_sec=70
+
+
+

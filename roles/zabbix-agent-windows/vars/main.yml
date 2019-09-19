@@ -1,4 +1,4 @@
 ---
-zabbix_hostname: zabbix-agent-win
+zabbix_hostname: Zabbix Agent Windows
 zabbix_server_hostname: zabbix-server
 zabbix_proxy_hostname: zabbix-proxy

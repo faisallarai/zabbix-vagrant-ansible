@@ -1,5 +1,5 @@
 ---
-- hosts: zabbix-agent-linux
+- hosts: agent-linux
   gather_facts: true
   become: yes
   tags:

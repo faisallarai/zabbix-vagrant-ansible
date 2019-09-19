@@ -1,47 +1,31 @@
 ---
 - name: Copy files/* to C:\Windows\Temp
   win_copy:
-    src: files/msi/
+    src: files/
     dest: C:\Windows\Temp\
 
-- name: Install zabbix agent from msi and wait installation finish
-  win_msi:
-    path: C:\Windows\Temp\zabbix_agent-3.2.3_x64.msi
-    wait: true
-    creates: C:\Program Files\Zabbix Agent\zabbix_agentd.exe
+- name: Install Chocolatey
+  raw: Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 
-- name: Remove C:\zabbixdata\ folder
-  win_file:
-    path: C:\zabbixdata\
-    state: absent
-  changed_when: False
-
-- name: Create directory for Zabbix userparameters
-  win_file:
-    path: C:\zabbixdata\userparameters\
-    state: directory
-  changed_when: False
-
-- name: Copy files/userparameters/ to C:\zabbixdata\userparameters\
+- name: Copy hosts file to etc folder
   win_copy:
-    src: files/userparameters/
-    dest: C:\zabbixdata\userparameters\
-
-- name: Create directory for Zabbix externalscripts
-  win_file:
-    path: C:\zabbixdata\externalscripts\
-    state: directory
-  changed_when: False
-
-- name: Copy files/externalscripts/ to C:\zabbixdata\externalscripts\
-  win_copy:
-    src: files/externalscripts/
-    dest: C:\zabbixdata\externalscripts\
+    src: hosts
+    dest: C:\Windows\System32\drivers\etc\
 
 - name: Create template config file from template
   win_template:
-    src: templates/zabbix_agentd.conf.j2
-    dest: C:\Program Files\Zabbix Agent\zabbix_agentd.conf
+    src: templates/zabbix_agentd.j2
+    dest: C:\ProgramData\zabbix\zabbix_agentd.conf
+
+- name: Install Python
+  win_chocolatey:
+    name: python
+    state: present
+
+- name: Install Zabbix Agent
+  win_chocolatey:
+    name: zabbix-agent
+    state: present
 
 - name: Restart Zabbix Agent service
   win_service:
@@ -54,3 +38,28 @@
     name: Zabbix Agent
     start_mode: auto
     state: started
+
+- name: Firewall rule to allow Zabbix Agent on TCP port 10050
+  win_firewall_rule:
+    name: Zabbix Agent Port
+    localport: 10050
+    action: allow
+    direction: in
+    protocol: tcp
+    state: present
+    enabled: yes
+
+- name: Firewall rule to allow RDP on TCP port 3389
+  win_firewall_rule:
+    name: Remote Desktop
+    localport: 3389
+    action: allow
+    direction: in
+    protocol: tcp
+    profiles: private
+    state: present
+    enabled: yes
+
+- name: Reboot to apply changes 
+  win_reboot:
+    reboot_timeout: 3600

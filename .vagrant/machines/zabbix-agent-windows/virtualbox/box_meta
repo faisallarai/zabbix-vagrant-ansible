@@ -1,1 +1,1 @@
-{"name":"ubuntu/bionic64","version":"20190902.0.0","provider":"virtualbox","directory":"boxes/ubuntu-VAGRANTSLASH-bionic64/20190902.0.0/virtualbox"}
+{"name":"gusztavvargadr/windows-server","version":"1809.0.1908","provider":"virtualbox","directory":"boxes/gusztavvargadr-VAGRANTSLASH-windows-server/1809.0.1908/virtualbox"}

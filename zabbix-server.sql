@@ -1,1 +1,0 @@
-"/Users/faisallarai/Development/devops_projects/zabbix_vagrant_ansible/roles/zabbix-server"/files/zabbix-server.sql

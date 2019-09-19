@@ -136,7 +136,7 @@ Server=127.0.0.1,{{zabbix_server_hostname}},{{zabbix_proxy_hostname}}
 # Default:
 # ServerActive=
 
-ServerActive=127.0.0.1,{{zabbix_server_hostname}},{{zabbix_proxy_hostname}}
+ServerActive=127.0.0.1,{{ zabbix_server_hostname }},{{ zabbix_proxy_hostname }}
 
 ### Option: Hostname
 #	Unique, case sensitive hostname.
@@ -147,7 +147,7 @@ ServerActive=127.0.0.1,{{zabbix_server_hostname}},{{zabbix_proxy_hostname}}
 # Default:
 # Hostname=
 
-Hostname={{zabbix_hostname}}
+Hostname={{ zabbix_hostname }}
 
 ### Option: HostnameItem
 #	Item used for generating Hostname if it is undefined. Ignored if Hostname is defined.

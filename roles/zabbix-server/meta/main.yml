@@ -1,7 +1,7 @@
 galaxy_info:
   author: Issaka Faisal
   description: A simple role that installs zabbix agent to your infrastructure. Run it, and see!
-  company: Smart Fanis
+  company: mPharma
 
   # If the issue tracker for your role is not on github, uncomment the
   # next line and provide a value
@@ -33,9 +33,9 @@ galaxy_info:
     - all
     - 18.04
 
-  galaxy_tags: 
+  galaxy_tags:
     - zabbix
-    - zabbix-server
+    - zabbixserver
     - monitoring
     # List tags for your role here, one per line. A tag is a keyword that describes
     # and categorizes the role. Users find roles by searching for tags. Be sure to

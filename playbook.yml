@@ -2,4 +2,4 @@
 - import_playbook: zabbix-server.yml
 - import_playbook: zabbix-proxy.yml
 - import_playbook: zabbix-agent-linux.yml
-# - import_playbook: zabbix-agent-win.yml
+- import_playbook: zabbix-agent-win.yml

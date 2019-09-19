@@ -463,7 +463,6 @@ CREATE TABLE `config` (
 
 LOCK TABLES `config` WRITE;
 /*!40000 ALTER TABLE `config` DISABLE KEYS */;
-INSERT INTO `config` VALUES (1,'10m','1-5,09:00-18:00',NULL,'blue-theme',0,'',389,'','','','',1,1,5,50,1000,'97AAB3','7499FF','FFC859','FFA059','E97659','E45959','Not classified','Information','Warning','Average','High','Disaster','5m','2m','CC0000','CC0000','009900','009900',1,1,1,1,1,10,1,'365d','1d','1d','1d',1,'365d',1,'365d',1,'365d',1,0,'90d',1,0,'365d',-1,0,0,0,'',1,0,1,'');
 /*!40000 ALTER TABLE `config` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1072,7 +1071,6 @@ CREATE TABLE `expressions` (
 
 LOCK TABLES `expressions` WRITE;
 /*!40000 ALTER TABLE `expressions` DISABLE KEYS */;
-INSERT INTO `expressions` VALUES (1,1,'^(btrfs|ext2|ext3|ext4|reiser|xfs|ffs|ufs|jfs|jfs2|vxfs|hfs|apfs|refs|ntfs|fat32|zfs)$',3,',',0),(3,3,'^(Physical memory|Virtual memory|Memory buffers|Cached memory|Swap space)$',4,',',1),(5,4,'^(MMCSS|gupdate|SysmonLog|clr_optimization_v2.0.50727_32|clr_optimization_v4.0.30319_32)$',4,',',1),(6,5,'^(automatic|automatic delayed)$',3,',',1),(7,2,'^Software Loopback Interface',4,',',1),(8,2,'^(In)?[Ll]oop[Bb]ack[0-9._]*$',4,',',1),(9,2,'^NULL[0-9.]*$',4,',',1),(10,2,'^[Ll]o[0-9.]*$',4,',',1),(11,2,'^[Ss]ystem$',4,',',1),(12,2,'^Nu[0-9.]*$',4,',',1);
 /*!40000 ALTER TABLE `expressions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1128,7 +1126,6 @@ CREATE TABLE `globalmacro` (
 
 LOCK TABLES `globalmacro` WRITE;
 /*!40000 ALTER TABLE `globalmacro` DISABLE KEYS */;
-INSERT INTO `globalmacro` VALUES (2,'{$SNMP_COMMUNITY}','public');
 /*!40000 ALTER TABLE `globalmacro` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1735,7 +1732,6 @@ CREATE TABLE `hosts` (
 
 LOCK TABLES `hosts` WRITE;
 /*!40000 ALTER TABLE `hosts` DISABLE KEYS */;
-INSERT INTO `hosts` VALUES (10001,NULL,'Template OS Linux',3,0,'',0,0,0,-1,2,'','',0,0,0,0,NULL,0,0,0,0,0,'','',0,0,0,'','Template OS Linux',0,NULL,'',1,1,'','','','','',1),(10050,NULL,'Template App Zabbix Agent',3,0,'',0,0,0,-1,2,'','',0,0,0,0,NULL,0,0,0,0,0,'','',0,0,0,'','Template App Zabbix Agent',0,NULL,'',1,1,'','','','','',1),(10265,NULL,'Zabbix Agent Linux',0,1568738938,'Received empty response from Zabbix Agent at [10.0.0.102]. Assuming that agent dropped connection because of access permissions.',2,1568736015,0,-1,2,'','',0,0,0,0,NULL,0,0,0,0,0,'','',0,0,0,'','Zabbix Agent Linux',0,NULL,'',1,1,'','','','','',1);
 /*!40000 ALTER TABLE `hosts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1792,7 +1788,6 @@ CREATE TABLE `hosts_templates` (
 
 LOCK TABLES `hosts_templates` WRITE;
 /*!40000 ALTER TABLE `hosts_templates` DISABLE KEYS */;
-INSERT INTO `hosts_templates` VALUES (4,10001,10050),(239,10265,10001);
 /*!40000 ALTER TABLE `hosts_templates` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1844,7 +1839,6 @@ CREATE TABLE `hstgrp` (
 
 LOCK TABLES `hstgrp` WRITE;
 /*!40000 ALTER TABLE `hstgrp` DISABLE KEYS */;
-INSERT INTO `hstgrp` VALUES (5,'',0,0);
 /*!40000 ALTER TABLE `hstgrp` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2123,7 +2117,6 @@ CREATE TABLE `ids` (
 
 LOCK TABLES `ids` WRITE;
 /*!40000 ALTER TABLE `ids` DISABLE KEYS */;
-INSERT INTO `ids` VALUES ('proxy_autoreg_host','autoreg_host_lastid',27);
 /*!40000 ALTER TABLE `ids` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2183,7 +2176,6 @@ CREATE TABLE `interface` (
 
 LOCK TABLES `interface` WRITE;
 /*!40000 ALTER TABLE `interface` DISABLE KEYS */;
-INSERT INTO `interface` VALUES (3,10265,1,1,1,'10.0.0.102','','10050',1);
 /*!40000 ALTER TABLE `interface` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2327,7 +2319,6 @@ CREATE TABLE `item_preproc` (
 
 LOCK TABLES `item_preproc` WRITE;
 /*!40000 ALTER TABLE `item_preproc` DISABLE KEYS */;
-INSERT INTO `item_preproc` VALUES (6533,28685,1,10,'',0,''),(6534,28689,1,10,'',0,'');
 /*!40000 ALTER TABLE `item_preproc` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2423,7 +2414,6 @@ CREATE TABLE `items` (
 
 LOCK TABLES `items` WRITE;
 /*!40000 ALTER TABLE `items` DISABLE KEYS */;
-INSERT INTO `items` VALUES (28677,0,'','',10265,'','agent.hostname','1h','90d','365d',0,1,'','','',0,'','','','',0,'',NULL,NULL,'','',0,'','','','',0,0,3,'','',0,'30d',0,0,0,'',0,'',NULL,'3s','','','','200',1,0,'','',0,0,0,'','','',0,0,0),(28678,0,'','',10265,'','agent.ping','1m','90d','365d',0,3,'','','',0,'','','','',0,'',NULL,NULL,'','',0,'','','','',0,0,3,'','',0,'30d',0,0,0,'',0,'',NULL,'3s','','','','200',1,0,'','',0,0,0,'','','',0,0,0),(28679,0,'','',10265,'','agent.version','1h','90d','365d',0,1,'','','',0,'','','','',0,'',NULL,NULL,'','',0,'','','','',0,0,3,'','',0,'30d',0,0,0,'',0,'',NULL,'3s','','','','200',1,0,'','',0,0,0,'','','',0,0,0),(28680,0,'','',10265,'','kernel.maxfiles','1h','90d','365d',0,3,'','','',0,'','','','',0,'',NULL,NULL,'','',0,'','','','',0,0,3,'','',0,'30d',0,0,0,'',0,'',NULL,'3s','','','','200',1,0,'','',0,0,0,'','','',0,0,0),(28681,0,'','',10265,'','kernel.maxproc','1h','90d','365d',0,3,'','','',0,'','','','',0,'',NULL,NULL,'','',0,'','','','',0,0,3,'','',0,'30d',0,0,0,'',0,'',NULL,'3s','','','','200',1,0,'','',0,0,0,'','','',0,0,0),(28682,0,'','',10265,'','proc.num[,,run]','1m','90d','365d',0,3,'','','',0,'','','','',0,'',NULL,NULL,'','',0,'','','','',0,0,3,'','',0,'30d',0,0,0,'',0,'',NULL,'3s','','','','200',1,0,'','',0,0,0,'','','',0,0,0),(28683,0,'','',10265,'','proc.num[]','1m','90d','365d',0,3,'','','',0,'','','','',0,'',NULL,NULL,'','',0,'','','','',0,0,3,'','',0,'30d',0,0,0,'',0,'',NULL,'3s','','','','200',1,0,'','',0,0,0,'','','',0,0,0),(28684,0,'','',10265,'','system.boottime','10m','90d','365d',0,3,'','','',0,'','','','',0,'',NULL,NULL,'','',0,'','','','',0,0,3,'','',0,'30d',0,0,0,'',0,'',NULL,'3s','','','','200',1,0,'','',0,0,0,'','','',0,0,0),(28685,0,'','',10265,'','system.cpu.intr','1m','90d','365d',0,3,'','','',0,'','','','',0,'',NULL,NULL,'','',0,'','','','',0,0,3,'','',0,'30d',0,0,0,'',0,'',NULL,'3s','','','','200',1,0,'','',0,0,0,'','','',0,0,0),(28686,0,'','',10265,'','system.cpu.load[percpu,avg15]','1m','90d','365d',0,0,'','','',0,'','','','',0,'',NULL,NULL,'','',0,'','','','',0,0,3,'','',0,'30d',0,0,0,'',0,'',NULL,'3s','','','','200',1,0,'','',0,0,0,'','','',0,0,0),(28687,0,'','',10265,'','system.cpu.load[percpu,avg1]','1m','90d','365d',0,0,'','','',0,'','','','',0,'',NULL,NULL,'','',0,'','','','',0,0,3,'','',0,'30d',0,0,0,'',0,'',NULL,'3s','','','','200',1,0,'','',0,0,0,'','','',0,0,0),(28688,0,'','',10265,'','system.cpu.load[percpu,avg5]','1m','90d','365d',0,0,'','','',0,'','','','',0,'',NULL,NULL,'','',0,'','','','',0,0,3,'','',0,'30d',0,0,0,'',0,'',NULL,'3s','','','','200',1,0,'','',0,0,0,'','','',0,0,0),(28689,0,'','',10265,'','system.cpu.switches','1m','90d','365d',0,3,'','','',0,'','','','',0,'',NULL,NULL,'','',0,'','','','',0,0,3,'','',0,'30d',0,0,0,'',0,'',NULL,'3s','','','','200',1,0,'','',0,0,0,'','','',0,0,0),(28690,0,'','',10265,'','system.cpu.util[,guest]','1m','90d','365d',0,0,'','','',0,'','','','',0,'',NULL,NULL,'','',0,'','','','',0,0,3,'','',0,'30d',0,0,0,'',0,'',NULL,'3s','','','','200',1,0,'','',0,0,0,'','','',0,0,0),(28691,0,'','',10265,'','system.cpu.util[,guest_nice]','1m','90d','365d',0,0,'','','',0,'','','','',0,'',NULL,NULL,'','',0,'','','','',0,0,3,'','',0,'30d',0,0,0,'',0,'',NULL,'3s','','','','200',1,0,'','',0,0,0,'','','',0,0,0),(28692,0,'','',10265,'','system.cpu.util[,idle]','1m','90d','365d',0,0,'','','',0,'','','','',0,'',NULL,NULL,'','',0,'','','','',0,0,3,'','',0,'30d',0,0,0,'',0,'',NULL,'3s','','','','200',1,0,'','',0,0,0,'','','',0,0,0),(28693,0,'','',10265,'','system.cpu.util[,interrupt]','1m','90d','365d',0,0,'','','',0,'','','','',0,'',NULL,NULL,'','',0,'','','','',0,0,3,'','',0,'30d',0,0,0,'',0,'',NULL,'3s','','','','200',1,0,'','',0,0,0,'','','',0,0,0),(28694,0,'','',10265,'','system.cpu.util[,iowait]','1m','90d','365d',0,0,'','','',0,'','','','',0,'',NULL,NULL,'','',0,'','','','',0,0,3,'','',0,'30d',0,0,0,'',0,'',NULL,'3s','','','','200',1,0,'','',0,0,0,'','','',0,0,0),(28695,0,'','',10265,'','system.cpu.util[,nice]','1m','90d','365d',0,0,'','','',0,'','','','',0,'',NULL,NULL,'','',0,'','','','',0,0,3,'','',0,'30d',0,0,0,'',0,'',NULL,'3s','','','','200',1,0,'','',0,0,0,'','','',0,0,0),(28696,0,'','',10265,'','system.cpu.util[,softirq]','1m','90d','365d',0,0,'','','',0,'','','','',0,'',NULL,NULL,'','',0,'','','','',0,0,3,'','',0,'30d',0,0,0,'',0,'',NULL,'3s','','','','200',1,0,'','',0,0,0,'','','',0,0,0),(28697,0,'','',10265,'','system.cpu.util[,steal]','1m','90d','365d',0,0,'','','',0,'','','','',0,'',NULL,NULL,'','',0,'','','','',0,0,3,'','',0,'30d',0,0,0,'',0,'',NULL,'3s','','','','200',1,0,'','',0,0,0,'','','',0,0,0),(28698,0,'','',10265,'','system.cpu.util[,system]','1m','90d','365d',0,0,'','','',0,'','','','',0,'',NULL,NULL,'','',0,'','','','',0,0,3,'','',0,'30d',0,0,0,'',0,'',NULL,'3s','','','','200',1,0,'','',0,0,0,'','','',0,0,0),(28699,0,'','',10265,'','system.cpu.util[,user]','1m','90d','365d',0,0,'','','',0,'','','','',0,'',NULL,NULL,'','',0,'','','','',0,0,3,'','',0,'30d',0,0,0,'',0,'',NULL,'3s','','','','200',1,0,'','',0,0,0,'','','',0,0,0),(28700,0,'','',10265,'','system.hostname','1h','90d','365d',0,1,'','','',0,'','','','',0,'',NULL,NULL,'','',0,'','','','',0,0,3,'','',0,'30d',0,0,0,'',0,'',NULL,'3s','','','','200',1,0,'','',0,0,0,'','','',0,0,0),(28701,0,'','',10265,'','system.localtime','1m','90d','365d',0,3,'','','',0,'','','','',0,'',NULL,NULL,'','',0,'','','','',0,0,3,'','',0,'30d',0,0,0,'',0,'',NULL,'3s','','','','200',1,0,'','',0,0,0,'','','',0,0,0),(28702,0,'','',10265,'','system.swap.size[,free]','1m','90d','365d',0,3,'','','',0,'','','','',0,'',NULL,NULL,'','',0,'','','','',0,0,3,'','',0,'30d',0,0,0,'',0,'',NULL,'3s','','','','200',1,0,'','',0,0,0,'','','',0,0,0),(28703,0,'','',10265,'','system.swap.size[,pfree]','1m','90d','365d',0,0,'','','',0,'','','','',0,'',NULL,NULL,'','',0,'','','','',0,0,3,'','',0,'30d',0,0,0,'',0,'',NULL,'3s','','','','200',1,0,'','',0,0,0,'','','',0,0,0),(28704,0,'','',10265,'','system.swap.size[,total]','1h','90d','365d',0,3,'','','',0,'','','','',0,'',NULL,NULL,'','',0,'','','','',0,0,3,'','',0,'30d',0,0,0,'',0,'',NULL,'3s','','','','200',1,0,'','',0,0,0,'','','',0,0,0),(28705,0,'','',10265,'','system.uname','1h','90d','365d',0,1,'','','',0,'','','','',0,'',NULL,NULL,'','',0,'','','','',0,0,3,'','',0,'30d',0,0,0,'',0,'',NULL,'3s','','','','200',1,0,'','',0,0,0,'','','',0,0,0),(28706,0,'','',10265,'','system.uptime','10m','90d','365d',0,3,'','','',0,'','','','',0,'',NULL,NULL,'','',0,'','','','',0,0,3,'','',0,'30d',0,0,0,'',0,'',NULL,'3s','','','','200',1,0,'','',0,0,0,'','','',0,0,0),(28707,0,'','',10265,'','system.users.num','1m','90d','365d',0,3,'','','',0,'','','','',0,'',NULL,NULL,'','',0,'','','','',0,0,3,'','',0,'30d',0,0,0,'',0,'',NULL,'3s','','','','200',1,0,'','',0,0,0,'','','',0,0,0),(28708,0,'','',10265,'','vfs.file.cksum[/etc/passwd]','1h','90d','365d',0,3,'','','',0,'','','','',0,'',NULL,NULL,'','',0,'','','','',0,0,3,'','',0,'30d',0,0,0,'',0,'',NULL,'3s','','','','200',1,0,'','',0,0,0,'','','',0,0,0),(28709,0,'','',10265,'','vm.memory.size[available]','1m','90d','365d',0,3,'','','',0,'','','','',0,'',NULL,NULL,'','',0,'','','','',0,0,3,'','',0,'30d',0,0,0,'',0,'',NULL,'3s','','','','200',1,0,'','',0,0,0,'','','',0,0,0),(28710,0,'','',10265,'','vm.memory.size[total]','1h','90d','365d',0,3,'','','',0,'','','','',0,'',NULL,NULL,'','',0,'','','','',0,0,3,'','',0,'30d',0,0,0,'',0,'',NULL,'3s','','','','200',1,0,'','',0,0,0,'','','',0,0,0),(28711,0,'','',10265,'','net.if.discovery','1h','90d','365d',0,4,'','','',0,'','','','',0,'',NULL,NULL,'','',0,'','','','',0,1,3,'','',0,'30d',0,0,0,'',0,'',NULL,'3s','','','','200',1,0,'','',0,0,0,'','','',0,0,0),(28712,0,'','',10265,'','vfs.fs.discovery','1h','90d','365d',0,4,'','','',0,'','','','',0,'',NULL,NULL,'','',0,'','','','',0,1,3,'','',0,'30d',0,0,0,'',0,'',NULL,'3s','','','','200',1,0,'','',0,0,0,'','','',0,0,0);
 /*!40000 ALTER TABLE `items` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -3158,7 +3148,7 @@ CREATE TABLE `proxy_autoreg_host` (
   `host_metadata` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   KEY `proxy_autoreg_host_1` (`clock`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=103 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3167,7 +3157,7 @@ CREATE TABLE `proxy_autoreg_host` (
 
 LOCK TABLES `proxy_autoreg_host` WRITE;
 /*!40000 ALTER TABLE `proxy_autoreg_host` DISABLE KEYS */;
-INSERT INTO `proxy_autoreg_host` VALUES (1,1568734088,'Zabbix Proxy','127.0.0.1',10050,'localhost',''),(2,1568734208,'Zabbix Proxy','127.0.0.1',10050,'localhost',''),(3,1568734328,'Zabbix Proxy','127.0.0.1',10050,'localhost',''),(4,1568734448,'Zabbix Proxy','127.0.0.1',10050,'localhost',''),(5,1568734568,'Zabbix Proxy','127.0.0.1',10050,'localhost',''),(6,1568734688,'Zabbix Proxy','127.0.0.1',10050,'localhost',''),(7,1568734808,'Zabbix Proxy','127.0.0.1',10050,'localhost',''),(8,1568734928,'Zabbix Proxy','127.0.0.1',10050,'localhost',''),(9,1568735048,'Zabbix Proxy','127.0.0.1',10050,'localhost',''),(10,1568735168,'Zabbix Proxy','127.0.0.1',10050,'localhost',''),(11,1568735288,'Zabbix Proxy','127.0.0.1',10050,'localhost',''),(12,1568735408,'Zabbix Proxy','127.0.0.1',10050,'localhost',''),(13,1568735528,'Zabbix Proxy','127.0.0.1',10050,'localhost',''),(14,1568735648,'Zabbix Proxy','127.0.0.1',10050,'localhost',''),(15,1568736068,'Zabbix Proxy','127.0.0.1',10050,'localhost',''),(16,1568736188,'Zabbix Proxy','127.0.0.1',10050,'localhost',''),(17,1568736308,'Zabbix Proxy','127.0.0.1',10050,'localhost',''),(18,1568736428,'Zabbix Proxy','127.0.0.1',10050,'localhost',''),(19,1568736548,'Zabbix Proxy','127.0.0.1',10050,'localhost',''),(20,1568736668,'Zabbix Proxy','127.0.0.1',10050,'localhost',''),(21,1568736788,'Zabbix Proxy','127.0.0.1',10050,'localhost',''),(22,1568736908,'Zabbix Proxy','127.0.0.1',10050,'localhost',''),(23,1568737028,'Zabbix Proxy','127.0.0.1',10050,'localhost',''),(24,1568738492,'Zabbix Proxy','127.0.0.1',10050,'localhost',''),(25,1568738612,'Zabbix Proxy','127.0.0.1',10050,'localhost',''),(26,1568738732,'Zabbix Proxy','127.0.0.1',10050,'localhost',''),(27,1568738852,'Zabbix Proxy','127.0.0.1',10050,'localhost','');
+INSERT INTO `proxy_autoreg_host` VALUES (1,1568905363,'Zabbix Server','10.0.0.101',10050,'zabbix-proxy',''),(2,1568905363,'Zabbix Server','127.0.0.1',10050,'localhost',''),(3,1568905375,'Zabbix Server','10.0.0.100',10050,'zabbix-server',''),(4,1568905382,'Zabbix Server','127.0.0.1',10050,'localhost',''),(5,1568905382,'Zabbix Server','10.0.0.101',10050,'zabbix-proxy',''),(6,1568905495,'Zabbix Server','10.0.0.100',10050,'zabbix-server',''),(7,1568905502,'Zabbix Server','127.0.0.1',10050,'localhost',''),(8,1568905502,'Zabbix Server','10.0.0.101',10050,'zabbix-proxy',''),(9,1568905615,'Zabbix Server','10.0.0.100',10050,'zabbix-server',''),(10,1568905622,'Zabbix Server','10.0.0.101',10050,'zabbix-proxy',''),(11,1568905622,'Zabbix Server','127.0.0.1',10050,'localhost',''),(12,1568905721,'Zabbix Agent Linux','10.0.0.102',10050,'zabbix-agent-linux',''),(13,1568905735,'Zabbix Server','10.0.0.100',10050,'zabbix-server',''),(14,1568905742,'Zabbix Server','127.0.0.1',10050,'localhost',''),(15,1568905742,'Zabbix Server','10.0.0.101',10050,'zabbix-proxy',''),(16,1568905841,'Zabbix Agent Linux','10.0.0.102',10050,'zabbix-agent-linux',''),(17,1568905855,'Zabbix Server','10.0.0.100',10050,'zabbix-server',''),(18,1568905862,'Zabbix Server','10.0.0.101',10050,'zabbix-proxy',''),(19,1568905862,'Zabbix Server','127.0.0.1',10050,'localhost',''),(20,1568905961,'Zabbix Agent Linux','10.0.0.102',10050,'zabbix-agent-linux',''),(21,1568905975,'Zabbix Server','10.0.0.100',10050,'zabbix-server',''),(22,1568905982,'Zabbix Server','127.0.0.1',10050,'localhost',''),(23,1568905982,'Zabbix Server','10.0.0.101',10050,'zabbix-proxy',''),(24,1568906001,'Zabbix Agent Windows','10.0.0.103',10050,'zabbix-agent-win',''),(25,1568906029,'Zabbix Agent Windows','10.0.0.1',10050,'',''),(26,1568906081,'Zabbix Agent Linux','10.0.0.102',10050,'zabbix-agent-linux',''),(27,1568906095,'Zabbix Server','10.0.0.100',10050,'zabbix-server',''),(28,1568906102,'Zabbix Server','10.0.0.101',10050,'zabbix-proxy',''),(29,1568906102,'Zabbix Server','127.0.0.1',10050,'localhost',''),(30,1568906150,'Zabbix Agent Windows','10.0.0.103',10050,'zabbix-agent-win',''),(31,1568906201,'Zabbix Agent Linux','10.0.0.102',10050,'zabbix-agent-linux',''),(32,1568906215,'Zabbix Server','10.0.0.100',10050,'zabbix-server',''),(33,1568906222,'Zabbix Server','127.0.0.1',10050,'localhost',''),(34,1568906222,'Zabbix Server','10.0.0.101',10050,'zabbix-proxy',''),(35,1568906270,'Zabbix Agent Windows','10.0.0.103',10050,'zabbix-agent-win',''),(36,1568906321,'Zabbix Agent Linux','10.0.0.102',10050,'zabbix-agent-linux',''),(37,1568906335,'Zabbix Server','10.0.0.100',10050,'zabbix-server',''),(38,1568906342,'Zabbix Server','10.0.0.101',10050,'zabbix-proxy',''),(39,1568906342,'Zabbix Server','127.0.0.1',10050,'localhost',''),(40,1568906389,'Zabbix Agent Windows','10.0.0.103',10050,'zabbix-agent-win',''),(41,1568906441,'Zabbix Agent Linux','10.0.0.102',10050,'zabbix-agent-linux',''),(42,1568906455,'Zabbix Server','10.0.0.100',10050,'zabbix-server',''),(43,1568906462,'Zabbix Server','10.0.0.101',10050,'zabbix-proxy',''),(44,1568906462,'Zabbix Server','127.0.0.1',10050,'localhost',''),(45,1568906510,'Zabbix Agent Windows','10.0.0.103',10050,'zabbix-agent-win',''),(46,1568906561,'Zabbix Agent Linux','10.0.0.102',10050,'zabbix-agent-linux',''),(47,1568906575,'Zabbix Server','10.0.0.100',10050,'zabbix-server',''),(48,1568906582,'Zabbix Server','10.0.0.101',10050,'zabbix-proxy',''),(49,1568906582,'Zabbix Server','127.0.0.1',10050,'localhost',''),(50,1568906630,'Zabbix Agent Windows','10.0.0.103',10050,'zabbix-agent-win',''),(51,1568906681,'Zabbix Agent Linux','10.0.0.102',10050,'zabbix-agent-linux',''),(52,1568906695,'Zabbix Server','10.0.0.100',10050,'zabbix-server',''),(53,1568906702,'Zabbix Server','127.0.0.1',10050,'localhost',''),(54,1568906702,'Zabbix Server','10.0.0.101',10050,'zabbix-proxy',''),(55,1568906750,'Zabbix Agent Windows','10.0.0.103',10050,'zabbix-agent-win',''),(56,1568906801,'Zabbix Agent Linux','10.0.0.102',10050,'zabbix-agent-linux',''),(57,1568906815,'Zabbix Server','10.0.0.100',10050,'zabbix-server',''),(58,1568906822,'Zabbix Server','127.0.0.1',10050,'localhost',''),(59,1568906822,'Zabbix Server','10.0.0.101',10050,'zabbix-proxy',''),(60,1568906870,'Zabbix Agent Windows','10.0.0.103',10050,'zabbix-agent-win',''),(61,1568906921,'Zabbix Agent Linux','10.0.0.102',10050,'zabbix-agent-linux',''),(62,1568906935,'Zabbix Server','10.0.0.100',10050,'zabbix-server',''),(63,1568906942,'Zabbix Server','127.0.0.1',10050,'localhost',''),(64,1568906942,'Zabbix Server','10.0.0.101',10050,'zabbix-proxy',''),(65,1568906990,'Zabbix Agent Windows','10.0.0.103',10050,'zabbix-agent-win',''),(66,1568907041,'Zabbix Agent Linux','10.0.0.102',10050,'zabbix-agent-linux',''),(67,1568907055,'Zabbix Server','10.0.0.100',10050,'zabbix-server',''),(68,1568907062,'Zabbix Server','127.0.0.1',10050,'localhost',''),(69,1568907062,'Zabbix Server','10.0.0.101',10050,'zabbix-proxy',''),(70,1568907110,'Zabbix Agent Windows','10.0.0.103',10050,'zabbix-agent-win',''),(71,1568907161,'Zabbix Agent Linux','10.0.0.102',10050,'zabbix-agent-linux',''),(72,1568907176,'Zabbix Server','10.0.0.100',10050,'zabbix-server',''),(73,1568907182,'Zabbix Server','127.0.0.1',10050,'localhost',''),(74,1568907182,'Zabbix Server','10.0.0.101',10050,'zabbix-proxy',''),(75,1568907230,'Zabbix Agent Windows','10.0.0.103',10050,'zabbix-agent-win',''),(76,1568907281,'Zabbix Agent Linux','10.0.0.102',10050,'zabbix-agent-linux',''),(77,1568907296,'Zabbix Server','10.0.0.100',10050,'zabbix-server',''),(78,1568907302,'Zabbix Server','127.0.0.1',10050,'localhost',''),(79,1568907302,'Zabbix Server','10.0.0.101',10050,'zabbix-proxy',''),(80,1568907350,'Zabbix Agent Windows','10.0.0.103',10050,'zabbix-agent-win',''),(81,1568907401,'Zabbix Agent Linux','10.0.0.102',10050,'zabbix-agent-linux',''),(82,1568907416,'Zabbix Server','10.0.0.100',10050,'zabbix-server',''),(83,1568907422,'Zabbix Server','10.0.0.101',10050,'zabbix-proxy',''),(84,1568907422,'Zabbix Server','127.0.0.1',10050,'localhost',''),(85,1568907470,'Zabbix Agent Windows','10.0.0.103',10050,'zabbix-agent-win',''),(86,1568907521,'Zabbix Agent Linux','10.0.0.102',10050,'zabbix-agent-linux',''),(87,1568907536,'Zabbix Server','10.0.0.100',10050,'zabbix-server',''),(88,1568907542,'Zabbix Server','10.0.0.101',10050,'zabbix-proxy',''),(89,1568907542,'Zabbix Server','127.0.0.1',10050,'localhost',''),(90,1568907590,'Zabbix Agent Windows','10.0.0.103',10050,'zabbix-agent-win',''),(91,1568907641,'Zabbix Agent Linux','10.0.0.102',10050,'zabbix-agent-linux',''),(92,1568907656,'Zabbix Server','10.0.0.100',10050,'zabbix-server',''),(93,1568907662,'Zabbix Server','127.0.0.1',10050,'localhost',''),(94,1568907662,'Zabbix Server','10.0.0.101',10050,'zabbix-proxy',''),(95,1568907710,'Zabbix Agent Windows','10.0.0.103',10050,'zabbix-agent-win',''),(96,1568907761,'Zabbix Agent Linux','10.0.0.102',10050,'zabbix-agent-linux',''),(97,1568907776,'Zabbix Server','10.0.0.100',10050,'zabbix-server',''),(98,1568907782,'Zabbix Server','10.0.0.101',10050,'zabbix-proxy',''),(99,1568907782,'Zabbix Server','127.0.0.1',10050,'localhost',''),(100,1568907830,'Zabbix Agent Windows','10.0.0.103',10050,'zabbix-agent-win',''),(101,1568907850,'Zabbix Server','10.0.0.100',10050,'zabbix-server',''),(102,1568907881,'Zabbix Agent Linux','10.0.0.102',10050,'zabbix-agent-linux','');
 /*!40000 ALTER TABLE `proxy_autoreg_host` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -3260,7 +3250,6 @@ CREATE TABLE `regexps` (
 
 LOCK TABLES `regexps` WRITE;
 /*!40000 ALTER TABLE `regexps` DISABLE KEYS */;
-INSERT INTO `regexps` VALUES (1,'File systems for discovery',''),(2,'Network interfaces for discovery',''),(3,'Storage devices for SNMP discovery',''),(4,'Windows service names for discovery',''),(5,'Windows service startup states for discovery','');
 /*!40000 ALTER TABLE `regexps` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -4681,4 +4670,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-09-17 16:48:25
+-- Dump completed on 2019-09-19 15:44:41

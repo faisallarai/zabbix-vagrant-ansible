@@ -8,7 +8,8 @@ nodes = [
     :id => '10',
     :port => '2100',
     :memory => 1024,
-    :size => '5GB'
+    :size => '5GB',
+    :box => 'ubuntu/bionic64'
   },
   {
     :hostname => 'zabbix-proxy',
@@ -16,7 +17,8 @@ nodes = [
     :id => '11',
     :port => '2101',
     :memory => 1024,
-    :size => '5GB'
+    :size => '5GB',
+    :box => 'ubuntu/bionic64'
   },
   {
     :hostname => 'zabbix-agent-linux',
@@ -24,7 +26,8 @@ nodes = [
     :id => '12',
     :port => '2102',
     :memory => 1024,
-    :size => '2GB'
+    :size => '2GB',
+    :box => 'ubuntu/bionic64'
   },
   {
     :hostname => 'zabbix-agent-windows',
@@ -32,7 +35,8 @@ nodes = [
     :id => '13',
     :port => '2103',
     :memory => 1024,
-    :size => '2GB'
+    :size => '10GB',
+    :box => 'gusztavvargadr/windows-server'
   }
 ]
 
@@ -50,7 +54,7 @@ Vagrant.configure("2") do |config|
   config.ssh.insert_key = false
   nodes.each do |node|
     config.vm.define node[:hostname] do |nodeconfig|
-      nodeconfig.vm.box = "ubuntu/bionic64"
+      nodeconfig.vm.box = node[:box]
       nodeconfig.disksize.size = node[:size]
       nodeconfig.vm.hostname = node[:hostname]
       nodeconfig.vm.boot_timeout = 300
@@ -63,9 +67,9 @@ Vagrant.configure("2") do |config|
         vb.gui = false
         vb.customize ['modifyvm', :id, '--macaddress1', "5CA1AB1E00"+node[:id]]
       end
-      nodeconfig.vm.provision "file", source: "hosts", destination: "hosts"
-      nodeconfig.vm.provision "file", source: "~/.vagrant.d/insecure_private_key", destination: "/home/vagrant/.ssh/id_rsa"
-      nodeconfig.vm.provision "shell", inline: $script
+      #nodeconfig.vm.provision "file", source: "hosts", destination: "hosts"
+      #nodeconfig.vm.provision "file", source: "~/.vagrant.d/insecure_private_key", destination: "/home/vagrant/.ssh/id_rsa"
+      #nodeconfig.vm.provision "shell", inline: $script
     end
   end
 end

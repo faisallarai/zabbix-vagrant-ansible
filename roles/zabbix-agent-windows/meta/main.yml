@@ -1,7 +1,7 @@
 galaxy_info:
   author: Issaka Faisal
   description: A simple role that installs zabbix agent to your infrastructure. Run it, and see!
-  company: Smart Fanis
+  company: mPharma
 
   # If the issue tracker for your role is not on github, uncomment the
   # next line and provide a value

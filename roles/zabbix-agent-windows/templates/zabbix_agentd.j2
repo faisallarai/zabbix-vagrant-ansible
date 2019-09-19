@@ -1,20 +1,11 @@
-# This is a configuration file for Zabbix agent daemon (Unix)
+# This is a configuration file for Zabbix agent service (Windows)
 # To get more information about Zabbix, visit http://www.zabbix.com
 
 ############ GENERAL PARAMETERS #################
 
-### Option: PidFile
-#	Name of PID file.
-#
-# Mandatory: no
-# Default:
-# PidFile=/tmp/zabbix_agentd.pid
-
-PidFile=/var/run/zabbix/zabbix_agentd.pid
-
 ### Option: LogType
 #	Specifies where log messages are written to:
-#		system  - syslog
+#		system  - Windows event log
 #		file    - file specified with LogFile parameter
 #		console - standard output
 #
@@ -25,11 +16,11 @@ PidFile=/var/run/zabbix/zabbix_agentd.pid
 ### Option: LogFile
 #	Log file name for LogType 'file' parameter.
 #
-# Mandatory: yes, if LogType is set to file, otherwise no
+# Mandatory: no
 # Default:
 # LogFile=
 
-LogFile=/var/log/zabbix/zabbix_agentd.log
+LogFile=c:\zabbix_agentd.log
 
 ### Option: LogFileSize
 #	Maximum size of log file in MB.
@@ -39,8 +30,6 @@ LogFile=/var/log/zabbix/zabbix_agentd.log
 # Range: 0-1024
 # Default:
 # LogFileSize=1
-
-LogFileSize=0
 
 ### Option: DebugLevel
 #	Specifies debug level:
@@ -86,16 +75,15 @@ LogFileSize=0
 ### Option: Server
 #	List of comma delimited IP addresses, optionally in CIDR notation, or DNS names of Zabbix servers and Zabbix proxies.
 #	Incoming connections will be accepted only from the hosts listed here.
-#	If IPv6 support is enabled then '127.0.0.1', '::127.0.0.1', '::ffff:127.0.0.1' are treated equally
-#	and '::/0' will allow any IPv4 or IPv6 address.
+#	If IPv6 support is enabled then '127.0.0.1', '::127.0.0.1', '::ffff:127.0.0.1' are treated equally and '::/0' will allow any IPv4 or IPv6 address.
 #	'0.0.0.0/0' can be used to allow any IPv4 address.
-#	Example: Server=127.0.0.1,192.168.1.0/24,::1,2001:db8::/32,zabbix.example.com
+#	Example: Server=127.0.0.1,192.168.1.0/24,::1,2001:db8::/32,zabbix.domain
 #
 # Mandatory: yes, if StartAgents is not explicitly set to 0
 # Default:
 # Server=
 
-Server=127.0.0.1,{{zabbix_server_hostname}},{{zabbix_proxy_hostname}}
+Server=127.0.0.1,{{ zabbix_server_hostname }},{{ zabbix_proxy_hostname }}
 
 ### Option: ListenPort
 #	Agent will listen on this port for connections from the server.
@@ -106,8 +94,8 @@ Server=127.0.0.1,{{zabbix_server_hostname}},{{zabbix_proxy_hostname}}
 # ListenPort=10050
 
 ### Option: ListenIP
-#	List of comma delimited IP addresses that the agent should listen on.
-#	First IP address is sent to Zabbix server if connecting to it to retrieve list of active checks.
+#		List of comma delimited IP addresses that the agent should listen on.
+#		First IP address is sent to Zabbix server if connecting to it to retrieve list of active checks.
 #
 # Mandatory: no
 # Default:
@@ -136,7 +124,7 @@ Server=127.0.0.1,{{zabbix_server_hostname}},{{zabbix_proxy_hostname}}
 # Default:
 # ServerActive=
 
-ServerActive=127.0.0.1
+ServerActive=127.0.0.1,{{ zabbix_server_hostname }},{{ zabbix_proxy_hostname }}
 
 ### Option: Hostname
 #	Unique, case sensitive hostname.
@@ -147,7 +135,7 @@ ServerActive=127.0.0.1
 # Default:
 # Hostname=
 
-Hostname={{zabbix_hostname}}
+Hostname={{ zabbix_hostname }}
 
 ### Option: HostnameItem
 #	Item used for generating Hostname if it is undefined. Ignored if Hostname is defined.
@@ -197,7 +185,7 @@ Hostname={{zabbix_hostname}}
 
 ### Option: BufferSize
 #	Maximum number of values in a memory buffer. The agent will send
-#	all collected data to Zabbix Server or Proxy if the buffer is full.
+#	all collected data to Zabbix server or Proxy if the buffer is full.
 #
 # Mandatory: no
 # Range: 2-65535
@@ -206,9 +194,9 @@ Hostname={{zabbix_hostname}}
 
 ### Option: MaxLinesPerSecond
 #	Maximum number of new lines the agent will send per second to Zabbix Server
-#	or Proxy processing 'log' and 'logrt' active checks.
+#	or Proxy processing 'log', 'logrt' and 'eventlog' active checks.
 #	The provided value will be overridden by the parameter 'maxlines',
-#	provided in 'log' or 'logrt' item keys.
+#	provided in 'log', 'logrt' or 'eventlog' item keys.
 #
 # Mandatory: no
 # Range: 1-1000
@@ -221,55 +209,46 @@ Hostname={{zabbix_hostname}}
 #	Sets an alias for an item key. It can be used to substitute long and complex item key with a smaller and simpler one.
 #	Multiple Alias parameters may be present. Multiple parameters with the same Alias key are not allowed.
 #	Different Alias keys may reference the same item key.
-#	For example, to retrieve the ID of user 'zabbix':
-#	Alias=zabbix.userid:vfs.file.regexp[/etc/passwd,^zabbix:.:([0-9]+),,,,\1]
-#	Now shorthand key zabbix.userid may be used to retrieve data.
-#	Aliases can be used in HostMetadataItem but not in HostnameItem parameters.
+#	For example, to retrieve paging file usage in percents from the server:
+#	Alias=pg_usage:perf_counter[\Paging File(_Total)\% Usage]
+#	Now shorthand key pg_usage may be used to retrieve data.
+#	Aliases can be used in HostMetadataItem but not in HostnameItem or PerfCounter parameters.
 #
 # Mandatory: no
 # Range:
 # Default:
 
 ### Option: Timeout
-#	Spend no more than Timeout seconds on processing
+#	Spend no more than Timeout seconds on processing.
 #
 # Mandatory: no
 # Range: 1-30
 # Default:
 # Timeout=3
 
-### Option: AllowRoot
-#	Allow the agent to run as 'root'. If disabled and the agent is started by 'root', the agent
-#	will try to switch to the user specified by the User configuration option instead.
-#	Has no effect if started under a regular user.
-#	0 - do not allow
-#	1 - allow
+### Option: PerfCounter
+#	Syntax: <parameter_name>,"<perf_counter_path>",<period>
+#	Defines new parameter <parameter_name> which is an average value for system performance counter <perf_counter_path> for the specified time period <period> (in seconds).
+#	For example, if you wish to receive average number of processor interrupts per second for last minute, you can define new parameter "interrupts" as following:
+#	PerfCounter = interrupts,"\Processor(0)\Interrupts/sec",60
+#	Please note double quotes around performance counter path.
+#	Samples for calculating average value will be taken every second.
+#	You may run "typeperf -qx" to get list of all performance counters available in Windows.
 #
 # Mandatory: no
+# Range:
 # Default:
-# AllowRoot=0
-
-### Option: User
-#	Drop privileges to a specific, existing user on the system.
-#	Only has effect if run as 'root' and AllowRoot is disabled.
-#
-# Mandatory: no
-# Default:
-# User=zabbix
 
 ### Option: Include
-#	You may include individual files or all files in a directory in the configuration file.
-#	Installing Zabbix will create include directory in /usr/local/etc, unless modified during the compile time.
+#	You may include individual files in the configuration file.
 #
 # Mandatory: no
 # Default:
 # Include=
 
-Include=/etc/zabbix/zabbix_agentd.d/*.conf
-
-# Include=/usr/local/etc/zabbix_agentd.userparams.conf
-# Include=/usr/local/etc/zabbix_agentd.conf.d/
-# Include=/usr/local/etc/zabbix_agentd.conf.d/*.conf
+# Include=c:\zabbix\zabbix_agentd.userparams.conf
+# Include=c:\zabbix\zabbix_agentd.conf.d\
+# Include=c:\zabbix\zabbix_agentd.conf.d\*.conf
 
 ####### USER-DEFINED MONITORED PARAMETERS #######
 
@@ -289,36 +268,10 @@ Include=/etc/zabbix/zabbix_agentd.d/*.conf
 ### Option: UserParameter
 #	User-defined parameter to monitor. There can be several user-defined parameters.
 #	Format: UserParameter=<key>,<shell command>
-#	See 'zabbix_agentd' directory for examples.
 #
 # Mandatory: no
 # Default:
 # UserParameter=
-
-####### LOADABLE MODULES #######
-
-### Option: LoadModulePath
-#	Full path to location of agent modules.
-#	Default depends on compilation options.
-#	To see the default path run command "zabbix_agentd --help".
-#
-# Mandatory: no
-# Default:
-# LoadModulePath=${libdir}/modules
-
-### Option: LoadModule
-#	Module to load at agent startup. Modules are used to extend functionality of the agent.
-#	Formats:
-#		LoadModule=<module.so>
-#		LoadModule=<path/module.so>
-#		LoadModule=</abs_path/module.so>
-#	Either the module must be located in directory specified by LoadModulePath or the path must precede the module name.
-#	If the preceding path is absolute (starts with '/') then LoadModulePath is ignored.
-#	It is allowed to include multiple LoadModule parameters.
-#
-# Mandatory: no
-# Default:
-# LoadModule=
 
 ####### TLS-RELATED PARAMETERS #######
 

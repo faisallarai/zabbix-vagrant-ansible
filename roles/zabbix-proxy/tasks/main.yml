@@ -9,18 +9,51 @@
     deb: https://repo.zabbix.com/zabbix/4.2/ubuntu/pool/main/z/zabbix-release/zabbix-release_4.2-1+bionic_all.deb
 
 - name: Install aptitude using apt
-  apt: 
+  apt:
     name: aptitude
-    state: present 
-    update_cache: yes 
+    state: present
+    update_cache: yes
+    force_apt_get: yes
+
+- name: Copy local hosts file to etc folder
+  become: yes
+  copy: 
+    src: hosts 
+    dest: /etc/
+
+- name: Add the user 'ubuntu' with a bash shell, appending the group 'vagrant' to the user's groups
+  user:
+    name: ubuntu
+    shell: /bin/bash
+    groups: vagrant
+    append: yes
+
+- name: Copy files in .ssh folder
+  become: yes
+  copy:
+    src: /home/vagrant/.ssh/
+    dest: /home/ubuntu/
+    remote_src: yes
+
+- name: Add permissions to folder ubuntu
+  file:
+    path: /home/ubuntu
+    owner: ubuntu
+    group: ubuntu
+
+- name: Update cache
+  apt:
+    name: aptitude
+    state: present
+    update_cache: yes
     force_apt_get: yes
 
 - name: Install required system packages
-  apt: 
-    name: "{{ item }}" 
-    state: present 
+  apt:
+    name: "{{ item }}"
+    state: present
     update_cache: yes
-  loop: [ 'zabbix-proxy-mysql', 'zabbix-agent', 'gzip']
+  loop: ['python-minimal', 'python-apt', 'python-setuptools', 'python3-pip', 'zabbix-proxy-mysql', 'zabbix-agent', 'gzip']
 
 - name: Make sure pymysql is present
   become: yes
@@ -32,7 +65,7 @@
   mysql_db:
     state: dump
     name: "{{ db_name }}"
-    target: /tmp/{{ db_name }}-{{ansible_date_time.date}}.sql
+    target: /tmp/{{ db_name }}-{{ ansible_date_time.date }}.sql
     login_unix_socket: /var/run/mysqld/mysqld.sock
   ignore_errors: true
 
@@ -73,6 +106,7 @@
 - name: Retrieve mysql binary archive.
   become: yes
   shell: zcat /usr/share/doc/zabbix-proxy-mysql/schema.sql.gz > /tmp/schema.sql
+  changed_when: false
 
 - name: Import zabbix schema database
   mysql_db:
@@ -81,16 +115,13 @@
     target: /tmp/schema.sql
     login_unix_socket: /var/run/mysqld/mysqld.sock
   register: db_imported
-  #failed_when: true
   ignore_errors: true
 
 - name: Copy zabbix proxy sql file to temp folder
   become: no
-  local_action: copy content="{{ role_path }}"/files/zabbix-proxy.sql dest="/tmp/zabbix-proxy.sql"
-
-- name: Copy zabbix proxy sql file to tmp folder
-  become: no
-  copy: src=zabbix-proxy.sql dest=/tmp/zabbix-proxy.sql mode=0777
+  copy: 
+    content: files/zabbix-proxy.sql 
+    dest: /tmp/zabbix-proxy.sql
 
 - name: Restore backup database
   mysql_db:
@@ -107,8 +138,8 @@
 
 - name: Replace zabbix proxy config file
   template:
-    src: "{{ role_path }}/templates/zabbix_proxy.j2"
-    dest: "/etc/zabbix/zabbix_proxy.conf" 
+    src: templates/zabbix_proxy.j2
+    dest: /etc/zabbix/zabbix_proxy.conf
     owner: root
     group: root
     mode: u=rw,g=r,o=r
@@ -116,18 +147,12 @@
 
 - name: Replace zabbix agent config file
   template:
-    src: "{{ role_path }}/templates/zabbix_agentd.j2"
-    dest: "/etc/zabbix/zabbix_agentd.conf" 
+    src: templates/zabbix_agentd.j2
+    dest: /etc/zabbix/zabbix_agentd.conf
     owner: root
     group: root
     mode: u=rw,g=r,o=r
     backup: yes
-
-# - name: Start service zabbix-proxy and zabbix-agent, if not started
-#   service:
-#     name: "{{ item }}"
-#     state: started
-#   loop: ['zabbix-proxy', 'zabbix-agent']
 
 - name: restart service zabbix proxy and agent on
   systemd:
@@ -138,6 +163,7 @@
     masked: no
   loop: ['zabbix-proxy', 'zabbix-agent']
 
-- name: Enable zabbix proxy 
+- name: Enable zabbix proxy
   become: yes
   command: update-rc.d zabbix-proxy enable
+  changed_when: false

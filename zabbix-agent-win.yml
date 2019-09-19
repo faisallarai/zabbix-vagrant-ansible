@@ -1,8 +1,7 @@
 ---
-- hosts: zabbix-agent-win
+- hosts: agent-windows
   gather_facts: true
-  become: yes
   tags:
-    - zabbix-agent-win
+    - zabbix-agent-windows
   roles:
-    - zabbix-agent-win
+    - zabbix-agent-windows

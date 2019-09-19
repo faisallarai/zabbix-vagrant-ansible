@@ -9,23 +9,56 @@
     deb: https://repo.zabbix.com/zabbix/4.2/ubuntu/pool/main/z/zabbix-release/zabbix-release_4.2-1+bionic_all.deb
 
 - name: Install aptitude using apt
-  apt: 
+  apt:
     name: aptitude
-    state: present 
-    update_cache: yes 
+    state: present
+    update_cache: yes
+    force_apt_get: yes
+
+- name: Copy local hosts file to etc folder
+  become: yes
+  copy: 
+    src: hosts 
+    dest: /etc/
+
+- name: Add the user 'ubuntu' with a bash shell, appending the group 'vagrant' to the user's groups
+  user:
+    name: ubuntu
+    shell: /bin/bash
+    groups: vagrant
+    append: yes
+
+- name: Copy files in .ssh folder
+  become: yes
+  copy:
+    src: /home/vagrant/.ssh/
+    dest: /home/ubuntu/
+    remote_src: yes
+
+- name: Add permissions to folder ubuntu
+  file:
+    path: /home/ubuntu
+    owner: ubuntu
+    group: ubuntu
+
+- name: Update cache
+  apt:
+    name: aptitude
+    state: present
+    update_cache: yes
     force_apt_get: yes
 
 - name: Install required system packages
-  apt: 
-    name: "{{ item }}" 
-    state: present 
+  apt:
+    name: "{{ item }}"
+    state: present
     update_cache: yes
-  loop: [ 'zabbix-agent', 'gzip']
+  loop: ['python-minimal', 'python-apt', 'python-setuptools', 'python-pip', 'zabbix-agent', 'gzip']
 
 - name: Replace zabbix agent config file
   template:
-    src: "{{ role_path }}/templates/zabbix_agentd.j2"
-    dest: "/etc/zabbix/zabbix_agentd.conf" 
+    src: templates/zabbix_agentd.j2
+    dest: "/etc/zabbix/zabbix_agentd.conf"
     owner: root
     group: root
     mode: u=rw,g=r,o=r

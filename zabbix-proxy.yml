@@ -1,5 +1,5 @@
 ---
-- hosts: zabbix-proxy
+- hosts: proxy
   gather_facts: true
   become: yes
   tags:
